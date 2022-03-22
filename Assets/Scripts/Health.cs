@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
     private float hitTimer = 0.15f;
     private bool isHit = false;
 
-    private Animator animator
+    private Animator animator;
     private Rigidbody2D myRigidBody;
     // Start is called before the first frame update
     void Start()
@@ -29,10 +29,25 @@ public class Health : MonoBehaviour
         }
     }
 
+    public void takeDamage(float damageTaken)
+    {
+        if (!isHit)
+        {
+            if (GetComponent<Fight>().blockCheck)
+            {
+                currentHealth -= damageTaken / 2;
+            } else
+            {
+                currentHealth -= damageTaken
+                StartCoroutine(KnockBack());
+            }
+        }
+    }
+
     private void Die()
     {
         animator.SetTrigger("die");
-        StartCoroutine(Dying));
+        StartCoroutine(Dying());
     }
 
     IEnumerator Dying()
